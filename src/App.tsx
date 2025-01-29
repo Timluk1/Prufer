@@ -1,13 +1,11 @@
-import { useEffect, useRef, useState } from "react";
-import { Network } from "vis-network";
-import { DataSet } from "vis-data";
-import { options } from "./options";
+import { useState } from "react";
+import { Graph } from "./components/Graph";
 import type { IEdge, INode } from "./utils/preufer";
 import { generateTree } from "./utils/preufer";
-import "./App.css";
+import { checkCorrectPrufer } from "./utils/preufer/prufer";
+import styles from "./App.module.css";
 
-
-const Graph: React.FC = () => {
+const App: React.FC = () => {
   const [pruferCode, setPruferCode] = useState<string>("");
   const [nodes, setNodes] = useState<INode[]>([]);
   const [edges, setEdges] = useState<IEdge[]>([]);
@@ -16,49 +14,39 @@ const Graph: React.FC = () => {
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPruferCode(e.target.value);
-  }
+  };
 
   const onClick = () => {
-    const resultParse = generateTree(pruferCode.split(" ").map(Number));
-    console.log(resultParse.edges);
-    setEdges(resultParse.edges);
-    setNodes(resultParse.nodes);
-    setShowGraph(true);
-  }
-
-  const containerRef = useRef<HTMLDivElement | null>(null);
-  useEffect(() => {
-    if (!containerRef.current) return;
-
-    const nodesDataSet = new DataSet<{ id: number; label: string }>(nodes);
-
-    const edgesDataSet = new DataSet<{ id: number; from: number; to: number }>(edges);
-
-    const network = new Network(containerRef.current, { nodes: nodesDataSet, edges: edgesDataSet }, options);
-
-    return () => network.destroy();
-  }, [edges, nodes]);
+    const array = pruferCode.split(" ").map(Number);
+    if (checkCorrectPrufer(array)) {
+      setShowGraph(true);
+      const resultParse = generateTree(array);
+      setEdges(resultParse.edges);
+      setNodes(resultParse.nodes);
+      setError(""); 
+    } else {
+      setError("Некорректный код Прюфера");
+      setShowGraph(false); 
+    }
+  };
 
   return (
-    <div className="graph-container">
-      <h1 className="graph__title">Генерация дерева по коду Прюфера</h1>
-      <div className="input-wrapper">
+    <div className={styles.graph2}>
+      <h1 className={styles.title}>Генерация дерева по коду Прюфера</h1>
+      <div className={styles.inputWrapper}>
         <input
           type="text"
-          placeholder="Введите код Прюфера через"
-          className="graph-input"
+          placeholder="Введите код Прюфера через пробел"
+          className={`${styles.input} ${error ? styles.errorInput : ""}`}
+          value={pruferCode}
           onChange={onChange}
         />
-        <button className="graph__button" onClick={onClick}>Вывести дерево</button>
+        {error && <span className={styles.errorText}>{error}</span>}
+        <button className={styles.button} onClick={onClick}>Вывести дерево</button>
       </div>
-      {
-        showGraph &&
-        <div className="graph-display">
-          <div ref={containerRef} className="graph-network" />
-        </div>
-      }
+      <Graph show={showGraph} nodes={nodes} edges={edges} />
     </div>
   );
 };
 
-export default Graph;
+export default App;

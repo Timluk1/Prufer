@@ -6,10 +6,12 @@ export const options: Options = {
   },
   nodes: {
     font: {
-      size: 14,
+      size: 16,
       color: "#ffffff",
+      align: "middle", 
     },
     shape: "circle",
+    size: 20, 
     color: {
       background: "#1e293b",
       border: "#6366f1",
@@ -19,6 +21,7 @@ export const options: Options = {
       },
     },
   },
+  
   edges: {
     color: "#6366f1",
     width: 2,

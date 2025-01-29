@@ -1,0 +1,100 @@
+.graph2 {
+  display: block;
+  flex-direction: column;
+  width: 100%;
+  max-width: 600px;
+}
+
+.inputWrapper {
+  width: 100%;
+  min-height: 60px;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.title {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.graphNetwork {
+  width: 100%;
+  height: 100%;
+}
+
+
+.input {
+  width: 100%;
+  padding: 10px;
+  font-size: 1rem;
+  color: #111827;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  outline: none;
+  border: 2px solid transparent;
+  transition: border 0.2s ease-in-out;
+  margin-right: 10px;
+}
+
+.input:focus {
+  border: 2px solid #6366f1;
+}
+
+.errorWrapper {
+  animation: shake 0.3s ease-out;
+}
+
+.errorInput {
+  border: 2px solid #e11d48;
+}
+
+.errorText {
+  color: #e11d48;
+  font-size: 0.9rem;
+  left: 0;
+  transition: opacity 0.3s ease-in-out;
+  opacity: 1;
+}
+
+@keyframes shake {
+  0% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-5px);
+  }
+  50% {
+    transform: translateX(5px);
+  }
+  75% {
+    transform: translateX(-5px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.button {
+  padding: 10px 20px;
+  font-size: 1rem;
+  color: white;
+  background-color: #6366f1;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+  &:hover {
+    background-color: #4338ca;
+  }
+}
+@media (max-width: 768px) {
+  .inputWrapper {
+    flex-direction: column;
+    gap: 20px;
+  }
+  .title {
+    font-size: 30px;
+  }
+}
